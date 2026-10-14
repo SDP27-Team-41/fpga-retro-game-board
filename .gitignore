@@ -333,3 +333,4 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+oss-cad-suite*
