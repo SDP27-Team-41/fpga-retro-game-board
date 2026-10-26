@@ -14,7 +14,7 @@ module m6532_riot (/*AUTOARG*/
    clk, res_n, read_write, cs1, cs2_n, rs_n, addr
    ) ;
    // Page 2 of the datasheet
-   input wire clk;         // phi on the datasheet
+   input wire phi_2;       // phi2 clock from 6502
    input wire res_n;
    input wire read_write;  // R/W on datasheet
    input wire cs1;         // CS1 is active high
