@@ -249,9 +249,13 @@ def synthesize_yosys(parsed, sim_env):
     print_header("Begin Synthesize HDL to Bitstream (Yosys & nextpnr)")
 
     yosys_script = os.path.join(sim_env["SYNTHESIS_ROOT"], "yosys.tcl")
-    json_file = os.path.join(sim_env["BUILD_DIR"], "blink.json")
-    config_file = os.path.join(sim_env["BUILD_DIR"], "blink.config")
-    bitstream_file = os.path.join(sim_env["BUILD_DIR"], "blink.bit")
+
+    # Name our files after the synthesis root
+    synth_name = os.path.basename(os.path.normpath(sim_env["SYNTHESIS_ROOT"]))
+
+    json_file = os.path.join(sim_env["BUILD_DIR"], f"{synth_name}.json")
+    config_file = os.path.join(sim_env["BUILD_DIR"], f"{synth_name}.config")
+    bitstream_file = os.path.join(sim_env["BUILD_DIR"], f"{synth_name}.bit")
     lpf_file = os.path.join(sim_env["SYNTHESIS_ROOT"], "ulx3s.lpf")
 
     # FIXME: JSON_FILE is probably a terible name
@@ -289,14 +293,6 @@ def synthesize_yosys(parsed, sim_env):
     print_header("End Synthesize HDL to Bistream (Yosys & nextpnr)")
 
 
-def program_fujiprog(parsed, sim_env):
-    """
-    Program an FPGA with fujiprog
-    """
-    print_header("Begin Program FPGA with fujiprog")
-    print_header("End Program FPGA with fujiprog")
-
-
 def synthesize_vivado(parsed, sim_env):
     """
     Synthesize an FPGA bitstream with Vivado
@@ -309,7 +305,6 @@ def synthesize_vivado(parsed, sim_env):
 
     fpga_pattern = os.path.join(sim_env["SYNTHESIS_ROOT"], "*.sv")
     hdl_sources += glob.glob(fpga_pattern)
-
 
     constraint_file_pattern = os.path.join(sim_env["SYNTHESIS_ROOT"], "*.xdc")
     constraint_file = glob.glob(constraint_file_pattern)[0]
