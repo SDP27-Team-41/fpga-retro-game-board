@@ -293,97 +293,6 @@ def synthesize_yosys(parsed, sim_env):
     print_header("End Synthesize HDL to Bistream (Yosys & nextpnr)")
 
 
-def synthesize_vivado(parsed, sim_env):
-    """
-    Synthesize an FPGA bitstream with Vivado
-    """
-    print_header("Begin Synthesize HDL to Bitstream")
-
-    # Not sure if including all .sv files is wise, but should be fine.
-    hdl_pattern = os.path.join(sim_env["HDL_ROOT"], "*.sv")
-    hdl_sources = glob.glob(hdl_pattern)
-
-    fpga_pattern = os.path.join(sim_env["SYNTHESIS_ROOT"], "*.sv")
-    hdl_sources += glob.glob(fpga_pattern)
-
-    constraint_file_pattern = os.path.join(sim_env["SYNTHESIS_ROOT"], "*.xdc")
-    constraint_file = glob.glob(constraint_file_pattern)[0]
-
-    # Update the environment for Vivado, yes I know it mutates it
-    sim_env["SYNTH_HDL_SOURCES"] = " ".join(hdl_sources)
-    sim_env["SYNTH_XDC_FILE"] = constraint_file
-    sim_env["SYNTH_TOP_MODULE"] = sim_env["SYNTHESIS_NAME"]
-
-    command = VIVADO + VIVADO_FLAGS + [sim_env["VIVADO_BUILD_SCRIPT"]]
-    print(" ".join(command))
-
-    process = subprocess.run(command, env=sim_env, cwd=sim_env["BUILD_DIR"])
-    if process.returncode != 0:
-        print("Failed to synthesize HDL.")
-        exit(-1)
-
-    print_header("End Synthesize HDL")
-
-
-def program_vivado(parsed, sim_env):
-    """
-    Program a design to an FPGA via Vivado.
-    """
-    print_header("Begin FPGA Vivado Program")
-
-    fpga_bitstream = os.path.abspath(
-        os.path.join(
-            sim_env["BUILD_DIR"],
-            sim_env["SYNTHESIS_NAME"]+".bit"
-        )
-    )
-
-    if not os.path.exists(fpga_bitstream):
-        print("Design not synthesized. Try running sim.py with -s")
-        # raise FileNotFoundError("Testbench is not compiled.")
-        sys.exit(errno.ENOENT)
-
-    sim_env["SYNTH_BITSTREAM"] = fpga_bitstream
-
-    command = VIVADO + VIVADO_FLAGS + [sim_env["VIVADO_WRITE_SCRIPT"]]
-    process = subprocess.run(command, env=sim_env, cwd=sim_env["BUILD_DIR"])
-    if process.returncode != 0:
-        print("Failed to program FPGA.")
-        exit(-1)
-
-    print_header("End FPGA Vivado Program")
-
-
-def program_digilent(parsed, sim_env):
-    """
-    Program an FPGA with Digilent
-    """
-    # Hardcoded board, yes. It's fine for now.
-    base_command = "djtgcfg prog -d CmodA7 -i 0 -f".split()
-
-    print_header("Begin FPGA Digilent Program")
-
-    fpga_bitstream = os.path.abspath(
-        os.path.join(
-            sim_env["BUILD_DIR"],
-            sim_env["SYNTHESIS_NAME"]+".bit"
-        )
-    )
-
-    if not os.path.exists(fpga_bitstream):
-        print("Design not synthesized. Try running sim.py with -s")
-        # raise FileNotFoundError("Testbench is not compiled.")
-        sys.exit(errno.ENOENT)
-
-    command = base_command + [fpga_bitstream]
-    process = subprocess.run(command, env=sim_env, cwd=sim_env["BUILD_DIR"])
-    if process.returncode != 0:
-        print("Failed to program FPGA.")
-        exit(-1)
-
-    print_header("End FPGA Digilent Program")
-
-
 def main():
     parser = make_parser()
     parsed = parser.parse_args()
@@ -408,11 +317,6 @@ def main():
     sim_env["TESTBENCH_NAME"] = os.path.basename(sim_env["TESTBENCH_ROOT"])
     sim_env["SYNTHESIS_NAME"] = sim_env["TESTBENCH_NAME"]
 
-    # Vivado
-    for key, val in VIVADO_SCRIPT_NAMES.items():
-        script_path = os.path.abspath(val)
-        sim_env[key] = script_path
-
     # Make build dir
     print_header(f"Creating build directory {sim_env['BUILD_DIR']}")
     try:
@@ -422,13 +326,8 @@ def main():
     print_header("Made build directory")
 
     # Do actions
-    if parsed.synthesize: # Synthesize
+    if parsed.synthesize:
         synthesize_yosys(parsed, sim_env)
-
-    if parsed.write_bitstream == "vivado":
-        program_vivado(parsed, sim_env)
-    elif parsed.write_bitstream == "digilent":
-        program_digilent(parsed, sim_env);
 
     if parsed.build_testbench:
         compile_testbench(parsed, sim_env)
