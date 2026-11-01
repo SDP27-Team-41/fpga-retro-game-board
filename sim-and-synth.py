@@ -80,6 +80,20 @@ def make_absolute_paths(path_list):
     return [os.path.abspath(x) for x in path_list]
 
 
+def find_git_root():
+    """
+    Find the root directory of the Git repository.
+    """
+    cwd = os.getcwd()
+    result = subprocess.run(
+        ["git", "-C", cwd, "rev-parse", "--show-toplevel"],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    return result.stdout.strip()
+
+
 def make_parser():
     """
     Generate parser object.
@@ -95,6 +109,7 @@ def make_parser():
                     "testbench.cf specifying how files should be included.",
                     "\n\n",
                     "Script always defines the macros SIMULATION",
+                    "HDL_ROOT=path/to/hdl, meant for managing includes",
                     "TESTBENCH_ROOT=testbench/root/path. This is meant for loading vectors.",
                 )
             )
@@ -107,7 +122,6 @@ def make_parser():
              "Also path for synthesis root, e.g. fpga/my_module")
         )
     )
-    parser.add_argument("--hdl-root", help="Path to root of HDL", default="./hdl/")
     parser.add_argument(
         "--build-dir",
         default="./build-hdl/",
@@ -319,10 +333,16 @@ def main():
     parser = make_parser()
     parsed = parser.parse_args()
 
+    print(parsed)
+
     # Setup environment variables, all of these might be useful in command file
     # or verilog testbench.
     sim_env = os.environ.copy()
-    sim_env["HDL_ROOT"] = os.path.abspath(parsed.hdl_root)
+
+    # Find the HDL root regardless of where the script is called from
+    git_root = find_git_root()
+    hdl_root = os.path.join(git_root, "hdl")
+    sim_env["HDL_ROOT"] = hdl_root
 
     # Equivalent for how script is called
     sim_env["TESTBENCH_ROOT"] = os.path.abspath(parsed.testbench_path)
