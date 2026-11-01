@@ -11,8 +11,9 @@ project back in 2024.
 
 ## Testbench layout
 
-Create a testbench directory for each module you want to test. For now, they all
-live under `hdl/verif/<module>`, but it will be restructured as the project gets bigger.
+Create a testbench directory for each module you want to test. The testbench
+goes under the `verif` folder that the module we are testing lives under. For
+example, `support/verif/<module_name>/`
 
 Files under it include
 - `test_<module>.sv`: Main testbench
