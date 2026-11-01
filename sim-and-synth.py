@@ -41,6 +41,9 @@ import glob
 IVERILOG = ["iverilog"]
 VVP = ["vvp"]
 VVP_POST = ["-fst"]
+YOSYS = ["yosys"]
+NEXTPNR_ECP5 = ["nextpnr-ecp5"]
+ECPPACK = ["ecppack"]
 
 IVERILOG_BASE_FLAGS = [
     "-g2012",
@@ -236,6 +239,63 @@ def simulate_testbench(parsed, sim_env):
     subprocess.run(command, env=sim_env, cwd=sim_env["BUILD_DIR"])
     print_header("End of Simulation")
 
+def synthesize_yosys(parsed, sim_env):
+    """
+    Synthesize an FPGA bitstream with Yosys and nextpnr
+
+    We are just assuming ulx3s is the only target.
+    """
+    # Yes, this code repeats itself; however, in this case I think repeating is clearer
+    print_header("Begin Synthesize HDL to Bitstream (Yosys & nextpnr)")
+
+    yosys_script = os.path.join(sim_env["SYNTHESIS_ROOT"], "yosys.tcl")
+    json_file = os.path.join(sim_env["BUILD_DIR"], "blink.json")
+    config_file = os.path.join(sim_env["BUILD_DIR"], "blink.config")
+    bitstream_file = os.path.join(sim_env["BUILD_DIR"], "blink.bit")
+    lpf_file = os.path.join(sim_env["SYNTHESIS_ROOT"], "ulx3s.lpf")
+
+    # FIXME: JSON_FILE is probably a terible name
+    sim_env["JSON_FILE"] = json_file
+
+    yosys_cmd = YOSYS + ["-c", yosys_script]
+
+    print(f"Running {' '.join(yosys_cmd)}")
+    process = subprocess.run(yosys_cmd, env=sim_env, cwd=sim_env["BUILD_DIR"])
+    if process.returncode != 0:
+        print(f"Yosys failed")
+        sys.exit(-1)
+
+    next_pnr_cmd = (
+        NEXTPNR_ECP5
+        + ["--85k", "--package", "CABGA381"]
+        + ["--json", json_file]
+        + ["--lpf", lpf_file]
+        + ["--textcfg", config_file]
+    )
+    print(next_pnr_cmd)
+    print(f"Running {' '.join(next_pnr_cmd)}")
+    process = subprocess.run(next_pnr_cmd, env=sim_env, cwd=sim_env["BUILD_DIR"])
+    if process.returncode != 0:
+        print(f"nextpnr failed")
+        sys.exit(-1)
+
+    ecppack_cmd = ECPPACK + [config_file, bitstream_file]
+    print(f"Running {' '.join(ecppack_cmd)}")
+    process = subprocess.run(ecppack_cmd, env=sim_env, cwd=sim_env["BUILD_DIR"])
+    if process.returncode != 0:
+        print(f"ecppack failed")
+        sys.exit(-1)
+
+    print_header("End Synthesize HDL to Bistream (Yosys & nextpnr)")
+
+
+def program_fujiprog(parsed, sim_env):
+    """
+    Program an FPGA with fujiprog
+    """
+    print_header("Begin Program FPGA with fujiprog")
+    print_header("End Program FPGA with fujiprog")
+
 
 def synthesize_vivado(parsed, sim_env):
     """
@@ -368,7 +428,7 @@ def main():
 
     # Do actions
     if parsed.synthesize: # Synthesize
-        synthesize_vivado(parsed, sim_env)
+        synthesize_yosys(parsed, sim_env)
 
     if parsed.write_bitstream == "vivado":
         program_vivado(parsed, sim_env)

@@ -1,0 +1,59 @@
+## ULX3S (v2.x / v3.x) constraints for buttons_and_leds
+##
+## Pin assignments are from the ULX3S templace lpf file:
+##   https://github.com/emard/ulx3s/blob/master/doc/constraints/ulx3s_v20.lpf
+##
+## The ULX3S has a 25 MHz oscillator on G2, eight discrete LEDs,
+## and seven pushbuttons. Button 0 is the power button: it is active-low
+## and has a pull-up, which is why the design uses rst = ~buttons[0].
+## The other six buttons are active-high with pull-downs.
+
+BLOCK RESETPATHS;
+BLOCK ASYNCPATHS;
+
+LOCATE COMP "clk_25mhz" SITE "G2";
+IOBUF PORT "clk_25mhz" PULLMODE=NONE IO_TYPE=LVCMOS33;
+FREQUENCY PORT "clk_25mhz" 25 MHZ;
+
+## Pushbuttons
+## buttons[0] = BTN_PWRn (active-low, pull-up)
+## buttons[1] = FIRE1
+## buttons[2] = FIRE2
+## buttons[3] = UP
+## buttons[4] = DOWN
+## buttons[5] = LEFT
+## buttons[6] = RIGHT
+LOCATE COMP "btn[0]" SITE "D6";
+LOCATE COMP "btn[1]" SITE "R1";
+LOCATE COMP "btn[2]" SITE "T1";
+LOCATE COMP "btn[3]" SITE "R18";
+LOCATE COMP "btn[4]" SITE "V1";
+LOCATE COMP "btn[5]" SITE "U1";
+LOCATE COMP "btn[6]" SITE "H16";
+
+IOBUF PORT "btn[0]" PULLMODE=UP IO_TYPE=LVCMOS33;
+IOBUF PORT "btn[1]" PULLMODE=DOWN IO_TYPE=LVCMOS33;
+IOBUF PORT "btn[2]" PULLMODE=DOWN IO_TYPE=LVCMOS33;
+IOBUF PORT "btn[3]" PULLMODE=DOWN IO_TYPE=LVCMOS33;
+IOBUF PORT "btn[4]" PULLMODE=DOWN IO_TYPE=LVCMOS33;
+IOBUF PORT "btn[5]" PULLMODE=DOWN IO_TYPE=LVCMOS33;
+IOBUF PORT "btn[6]" PULLMODE=DOWN IO_TYPE=LVCMOS33;
+
+# LEDs
+LOCATE COMP "led[0]" SITE "B2";
+LOCATE COMP "led[1]" SITE "C2";
+LOCATE COMP "led[2]" SITE "C1";
+LOCATE COMP "led[3]" SITE "D2";
+LOCATE COMP "led[4]" SITE "D1";
+LOCATE COMP "led[5]" SITE "E2";
+LOCATE COMP "led[6]" SITE "E1";
+LOCATE COMP "led[7]" SITE "H3";
+
+IOBUF PORT "led[0]" PULLMODE=NONE IO_TYPE=LVCMOS33 DRIVE=4;
+IOBUF PORT "led[1]" PULLMODE=NONE IO_TYPE=LVCMOS33 DRIVE=4;
+IOBUF PORT "led[2]" PULLMODE=NONE IO_TYPE=LVCMOS33 DRIVE=4;
+IOBUF PORT "led[3]" PULLMODE=NONE IO_TYPE=LVCMOS33 DRIVE=4;
+IOBUF PORT "led[4]" PULLMODE=NONE IO_TYPE=LVCMOS33 DRIVE=4;
+IOBUF PORT "led[5]" PULLMODE=NONE IO_TYPE=LVCMOS33 DRIVE=4;
+IOBUF PORT "led[6]" PULLMODE=NONE IO_TYPE=LVCMOS33 DRIVE=4;
+IOBUF PORT "led[7]" PULLMODE=NONE IO_TYPE=LVCMOS33 DRIVE=4;
