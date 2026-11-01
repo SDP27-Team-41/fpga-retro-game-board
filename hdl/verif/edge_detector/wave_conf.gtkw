@@ -1,0 +1,35 @@
+[*]
+[*] GTKWave Analyzer v4.0.0-prealpha (f6d60e0) (w)1999-2022 BSI
+[*] Sun Nov  1 21:21:17 2026
+[*]
+[dumpfile] "/home/rose/Projects/fpga-retro-game-board/hdl/build-hdl/edge_detector.fst"
+[dumpfile_mtime] "Sun Nov  1 21:19:12 2026"
+[dumpfile_size] 813
+[savefile] "/home/rose/Projects/fpga-retro-game-board/hdl/verif/edge_detector/wave_conf.gtkw"
+[timestart] 0
+[size] 2032 1195
+[pos] -7 -4
+*-17.175793 -1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[treeopen] test_edge_detector.
+[sst_width] 297
+[signals_width] 94
+[sst_expanded] 1
+[sst_vpaned_height] 357
+@201
+-Inputs
+@28
+test_edge_detector.DUT.clk
+test_edge_detector.DUT.ena
+test_edge_detector.DUT.rst
+test_edge_detector.DUT.in
+@200
+-Outputs
+@28
+test_edge_detector.DUT.neg_edge
+test_edge_detector.DUT.pos_edge
+@200
+-Internal
+@28
+test_edge_detector.DUT.prev
+[pattern_trace] 1
+[pattern_trace] 0

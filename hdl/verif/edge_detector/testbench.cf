@@ -1,0 +1,5 @@
+# Edge detector source
+$(HDL_ROOT)/support/edge_detector.sv
+
+# Testbench
+$(TESTBENCH_ROOT)/test_edge_detector.sv
