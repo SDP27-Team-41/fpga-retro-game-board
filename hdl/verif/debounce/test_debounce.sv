@@ -16,14 +16,18 @@ module test_debounce;
    wire [6:0] out;
 
    // Instantiate the Device Under Test (DUT)
-   debounce #(.DIV_AMOUNT(4)) DUT(// Connected nets
-                                  // Inputs
-                                  .clk(clk),
-                                  .rst(rst),
-                                  .ena(ena),
-                                  .in(in),
-                                  // Outputs
-                                  .out(out));
+   debounce 
+     #(.DIV_AMOUNT(4), // Parameters
+       .NBUTTONS(7))
+   DUT( // DUT is the name of the instance
+       // Connected nets
+       // Inputs
+       .clk(clk),
+       .rst(rst),
+       .ena(ena),
+       .in(in),
+       // Outputs
+       .out(out));
 
    // Generate clock
    always #(CLK_PERIOD_NS/2.0) clk = ~clk;
