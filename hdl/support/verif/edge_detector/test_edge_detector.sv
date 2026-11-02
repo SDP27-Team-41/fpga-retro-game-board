@@ -12,7 +12,7 @@ module test_edge_detector;
    wire pos_edge;
    wire neg_edge;
 
-   debounce
+   edge_detector
      #(.N(1))
    DUT(
        .clk(clk),

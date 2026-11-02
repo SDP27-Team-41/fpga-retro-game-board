@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns/1ps
 
-module debounce (/*AUTOARG*/
+module edge_detector (/*AUTOARG*/
    // Outputs
    pos_edge, neg_edge,
    // Inputs
@@ -31,4 +31,4 @@ module debounce (/*AUTOARG*/
       neg_edge = ~in & prev; // Input low and previous high
    end
 
-endmodule // debounce
+endmodule // edge_detector
