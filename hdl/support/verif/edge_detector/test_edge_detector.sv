@@ -17,7 +17,6 @@ module test_edge_detector;
    DUT(
        .clk(clk),
        .rst(rst),
-       .ena(ena),
        .in(in),
        .pos_edge(pos_edge),
        .neg_edge(neg_edge));

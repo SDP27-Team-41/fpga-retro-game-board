@@ -5,11 +5,11 @@ module edge_detector (/*AUTOARG*/
    // Outputs
    pos_edge, neg_edge,
    // Inputs
-   clk, rst, ena, in
+   clk, rst, in
    ) ;
    parameter N = 1; // How many signals should this instance handle
 
-   input wire clk, rst, ena;
+   input wire clk, rst;
    input wire [N-1:0] in;
    output logic [N-1:0] pos_edge, neg_edge;
 
