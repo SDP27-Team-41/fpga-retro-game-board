@@ -18,7 +18,7 @@ module blink (/*AUTOARG*/
    // inputs together from the combined bus
 
    // LED[6:0] will just be a counter
-   logic [15:0] count;
+   logic [31:0] count;
    
    always_ff @(posedge clk_25mhz) begin
       if (rst) begin
@@ -30,7 +30,7 @@ module blink (/*AUTOARG*/
 
    // We use the upper bits of a too large count to slow it down so it's human
    // visible
-   always_comb led[6:0] = count[15:9];
+   always_comb led[6:0] = count[31:25];
    
    
    // assign led[6] = count[15];
