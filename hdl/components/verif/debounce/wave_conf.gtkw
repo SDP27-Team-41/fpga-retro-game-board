@@ -1,0 +1,62 @@
+[*]
+[*] GTKWave Analyzer v4.0.0-prealpha (f6d60e0) (w)1999-2022 BSI
+[*] Sun Nov  1 20:56:01 2026
+[*]
+[dumpfile] "/home/rose/Projects/fpga-retro-game-board/hdl/build-hdl/debounce.fst"
+[dumpfile_mtime] "Sun Nov  1 20:55:25 2026"
+[dumpfile_size] 937
+[savefile] "/home/rose/Projects/fpga-retro-game-board/hdl/verif/debounce/wave-conf.gtkw"
+[timestart] 0
+[size] 2032 1195
+[pos] -7 -4
+*-17.615812 -1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[markername] AA
+[markername] BB
+[markername] CC
+[markername] DD
+[markername] EE
+[markername] FF
+[markername] GG
+[markername] HH
+[markername] II
+[markername] JJ
+[markername] KK
+[markername] LL
+[markername] MM
+[markername] NN
+[markername] OO
+[markername] PP
+[markername] QQ
+[markername] RR
+[markername] SS
+[markername] TT
+[markername] UU
+[markername] VV
+[markername] WW
+[markername] XX
+[markername] YY
+[markername] ZZ
+[treeopen] test_debounce.
+[sst_width] 297
+[signals_width] 110
+[sst_expanded] 1
+[sst_vpaned_height] 357
+@200
+-Inputs
+@28
+test_debounce.DUT.clk
+test_debounce.DUT.ena
+test_debounce.DUT.rst
+test_debounce.DUT.in
+@200
+-Outputs
+@28
+test_debounce.DUT.out
+@200
+-Internal
+@28
+test_debounce.DUT.ena_sample
+@29
+test_debounce.DUT.sample
+[pattern_trace] 1
+[pattern_trace] 0

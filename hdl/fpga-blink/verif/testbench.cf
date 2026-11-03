@@ -1,0 +1,2 @@
+$(HDL_ROOT)/fpga-blink-test/blink.sv
+$(TESTBENCH_ROOT)/test_blink.sv

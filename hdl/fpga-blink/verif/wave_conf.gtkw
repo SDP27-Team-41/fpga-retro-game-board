@@ -1,0 +1,80 @@
+[*]
+[*] GTKWave Analyzer v4.0.0-prealpha (f6d60e0) (w)1999-2022 BSI
+[*] Sun Nov  1 22:21:46 2026
+[*]
+[dumpfile] "/home/rose/Projects/fpga-retro-game-board/hdl/build-hdl/blink.fst"
+[dumpfile_mtime] "Sun Nov  1 22:20:16 2026"
+[dumpfile_size] 141487
+[savefile] "/home/rose/Projects/fpga-retro-game-board/hdl/fpga-blink-test/verif/wave_conf.gtkw"
+[timestart] 0
+[size] 2032 1195
+[pos] -1 -1
+*-27.000000 447600000 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[markername] AA
+[markername] BB
+[markername] CC
+[markername] DD
+[markername] EE
+[markername] FF
+[markername] GG
+[markername] HH
+[markername] II
+[markername] JJ
+[markername] KK
+[markername] LL
+[markername] MM
+[markername] NN
+[markername] OO
+[markername] PP
+[markername] QQ
+[markername] RR
+[markername] SS
+[markername] TT
+[markername] UU
+[markername] VV
+[markername] WW
+[markername] XX
+[markername] YY
+[markername] ZZ
+[treeopen] test_blink.
+[sst_width] 297
+[signals_width] 105
+[sst_expanded] 1
+[sst_vpaned_height] 357
+@28
+test_blink.DUT.clk_25mhz
+test_blink.DUT.rst
+@200
+-Inputs
+@800022
+test_blink.DUT.btn[6:0]
+@28
+(0)test_blink.DUT.btn[6:0]
+(1)test_blink.DUT.btn[6:0]
+(2)test_blink.DUT.btn[6:0]
+(3)test_blink.DUT.btn[6:0]
+(4)test_blink.DUT.btn[6:0]
+(5)test_blink.DUT.btn[6:0]
+(6)test_blink.DUT.btn[6:0]
+@200
+-Outputs
+@800022
+test_blink.DUT.led[7:0]
+@28
+(0)test_blink.DUT.led[7:0]
+(1)test_blink.DUT.led[7:0]
+(2)test_blink.DUT.led[7:0]
+(3)test_blink.DUT.led[7:0]
+(4)test_blink.DUT.led[7:0]
+(5)test_blink.DUT.led[7:0]
+(6)test_blink.DUT.led[7:0]
+(7)test_blink.DUT.led[7:0]
+@200
+-Internal
+@1001200
+-group_end
+-group_end
+@23
+test_blink.DUT.count[15:0]
+[pattern_trace] 1
+[pattern_trace] 0
